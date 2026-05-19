@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiPlay } from 'react-icons/fi';
 
@@ -10,6 +10,7 @@ const portfolioItems = [
 ];
 
 const Portfolio = () => {
+  const [playingId, setPlayingId] = useState(null);
   return (
     <section id="portfolio" className="py-24 bg-brand-black relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,19 +54,45 @@ const Portfolio = () => {
               transition={{ delay: index * 0.1 }}
               className={`relative aspect-[9/16] lg:aspect-video rounded-2xl overflow-hidden group ${item.bg}`}
             >
-              {/* Overlay for Hover Effect */}
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-500 z-10 flex flex-col justify-center items-center">
-                <div className="w-16 h-16 rounded-full bg-brand-red/90 flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_20px_#ff0000]">
-                  <FiPlay fill="currentColor" size={24} className="ml-1" />
-                </div>
-              </div>
-              
-              <div className="absolute bottom-0 left-0 right-0 p-6 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                <span className="text-xs font-bold uppercase tracking-wider text-brand-red bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm mb-2 inline-block border border-brand-red/30">
-                  {item.type}
-                </span>
-                <h3 className="text-xl font-bold text-white mt-2 font-poppins">{item.title}</h3>
-              </div>
+              {playingId === item.id && item.video ? (
+                <video
+                  src={item.video}
+                  controls
+                  autoPlay
+                  className="absolute inset-0 w-full h-full object-cover z-30"
+                  onEnded={() => setPlayingId(null)}
+                />
+              ) : (
+                <>
+                  {item.video && (
+                    <video
+                      src={item.video}
+                      className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
+                      muted
+                      playsInline
+                      loop
+                    />
+                  )}
+                  {/* Overlay for Hover Effect */}
+                  <div 
+                    className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-500 z-10 flex flex-col justify-center items-center cursor-pointer"
+                    onClick={() => item.video && setPlayingId(item.id)}
+                  >
+                    {item.video && (
+                      <div className="w-16 h-16 rounded-full bg-brand-red/90 flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_20px_#ff0000]">
+                        <FiPlay fill="currentColor" size={24} className="ml-1" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
+                    <span className="text-xs font-bold uppercase tracking-wider text-brand-red bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm mb-2 inline-block border border-brand-red/30">
+                      {item.type}
+                    </span>
+                    <h3 className="text-xl font-bold text-white mt-2 font-poppins">{item.title}</h3>
+                  </div>
+                </>
+              )}
             </motion.div>
           ))}
         </div>
