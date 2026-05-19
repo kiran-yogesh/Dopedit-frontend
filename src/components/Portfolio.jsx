@@ -3,12 +3,10 @@ import { motion } from 'framer-motion';
 import { FiPlay } from 'react-icons/fi';
 
 const portfolioItems = [
-  { id: 1, type: 'Reel', title: 'Cinematic Reels', bg: 'bg-gradient-to-br from-gray-800 to-gray-900' },
-  { id: 2, type: 'YouTube', title: 'Promotional Edit', bg: 'bg-gradient-to-br from-red-900 to-black' },
-  { id: 3, type: 'Shorts', title: 'Podcast Highlights', bg: 'bg-gradient-to-br from-gray-900 to-black' },
-  { id: 4, type: 'Wedding', title: 'Luxury Wedding Film', bg: 'bg-gradient-to-br from-neutral-800 to-black' },
-  { id: 5, type: 'Gaming', title: 'Valorant Montage', bg: 'bg-gradient-to-br from-red-950 to-gray-900' },
-  { id: 6, type: 'Motion', title: 'Brand Promo Video', bg: 'bg-gradient-to-br from-black to-red-900' },
+  { id: 1, type: 'Reel', title: 'Cinematic Reels', bg: 'bg-gradient-to-br from-gray-800 to-gray-900' ,video:"cinematic.mp4"},
+  { id: 2, type: 'Classic Videos', title: 'Classic Edit', bg: 'bg-gradient-to-br from-red-900 to-black' ,video:"classic.mp4"},
+  { id: 3, type: 'Shorts', title: 'Short Highlights', bg: 'bg-gradient-to-br from-gray-900 to-black' ,video:"/general shoot.mp4"},
+  { id: 6, type: 'Motion', title: 'Brand Promo Video', bg: 'bg-gradient-to-br from-black to-red-900' ,video:"/promotional video.mp4"},
 ];
 
 const Portfolio = () => {
