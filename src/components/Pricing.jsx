@@ -96,7 +96,7 @@ const Pricing = () => {
               
               <button 
                 onClick={() => {
-                  window.dispatchEvent(new CustomEvent('selectPackage', { detail: plan.name }));
+                  window.dispatchEvent(new CustomEvent('selectPackage', { detail: plan }));
                   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 }}
                 className={`w-full py-3 rounded-full font-bold uppercase tracking-wider transition-all duration-300 ${

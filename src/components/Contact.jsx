@@ -7,6 +7,7 @@ const Contact = () => {
     name: '', email: '', phone: '', service: '', message: ''
   });
   const [status, setStatus] = useState('');
+  const [selectedPackageDetails, setSelectedPackageDetails] = useState(null);
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -14,7 +15,9 @@ const Contact = () => {
 
   useEffect(() => {
     const handlePackageSelection = (e) => {
-      setFormData(prev => ({ ...prev, service: e.detail }));
+      const plan = e.detail;
+      setFormData(prev => ({ ...prev, service: plan.name }));
+      setSelectedPackageDetails(plan);
     };
     window.addEventListener('selectPackage', handlePackageSelection);
     return () => window.removeEventListener('selectPackage', handlePackageSelection);
@@ -25,11 +28,20 @@ const Contact = () => {
     setStatus('sending');
     
     const phoneNumber = "919100961733";
+    
+    let packageInfo = "";
+    if (selectedPackageDetails && formData.service === selectedPackageDetails.name) {
+      packageInfo = `
+*Price:* ${selectedPackageDetails.price} ${selectedPackageDetails.period}
+*Benefits:*
+${selectedPackageDetails.features.map(f => `  - ${f}`).join('\n')}`;
+    }
+
     const text = `Hello, I'm interested in your services!
 *Name:* ${formData.name}
 *Email:* ${formData.email}
 *Phone:* ${formData.phone}
-*Service:* ${formData.service}
+*Service:* ${formData.service}${packageInfo}
 *Message:* ${formData.message}`;
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
@@ -91,6 +103,26 @@ const Contact = () => {
               onSubmit={handleSubmit} 
               className="glassmorphism p-8 rounded-2xl"
             >
+              {selectedPackageDetails && formData.service === selectedPackageDetails.name && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="mb-6 bg-brand-red/10 border border-brand-red/30 rounded-lg p-5"
+                >
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="text-white font-bold text-lg">{selectedPackageDetails.name} Package</h4>
+                    <span className="text-brand-red font-bebas text-2xl">{selectedPackageDetails.price} <span className="text-sm text-gray-400 font-sans">{selectedPackageDetails.period}</span></span>
+                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-300">
+                    {selectedPackageDetails.features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <span className="text-brand-red text-xs">✓</span> {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Name</label>
