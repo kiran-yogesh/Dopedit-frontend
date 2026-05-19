@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiSend } from 'react-icons/fi';
 
@@ -12,25 +12,31 @@ const Contact = () => {
     setFormData({...formData, [e.target.name]: e.target.value});
   }
 
+  useEffect(() => {
+    const handlePackageSelection = (e) => {
+      setFormData(prev => ({ ...prev, service: e.detail }));
+    };
+    window.addEventListener('selectPackage', handlePackageSelection);
+    return () => window.removeEventListener('selectPackage', handlePackageSelection);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
-    try {
-      const res = await fetch('https://dopedit-backend.onrender.com/api/contact', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(formData)
-});
+    
+    const phoneNumber = "919100961733";
+    const text = `Hello, I'm interested in your services!
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone}
+*Service:* ${formData.service}
+*Message:* ${formData.message}`;
 
-      if(res.ok) {
-        setStatus('success');
-        setFormData({name: '', email: '', phone: '', service: '', message: ''});
-      } else {
-        setStatus('error');
-      }
-    } catch(err) {
-      setStatus('error');
-    }
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+
+    setStatus('success');
+    setFormData({name: '', email: '', phone: '', service: '', message: ''});
     
     setTimeout(() => setStatus(''), 3000);
   }
@@ -104,6 +110,8 @@ body: JSON.stringify(formData)
                   <label className="block text-sm text-gray-400 mb-2">Service Needed</label>
                   <select name="service" value={formData.service} onChange={handleChange} className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-red transition-colors appearance-none">
                     <option value="" disabled>Select a service</option>
+                    <option value="Basic Reel">Basic Reel Package</option>
+                    <option value="Pro Creator">Pro Creator Package</option>
                     <option value="Reel Editing">Reel/Shorts Editing</option>
                     <option value="YouTube Editing">YouTube Editing</option>
                     <option value="Color Grading">Color Grading</option>

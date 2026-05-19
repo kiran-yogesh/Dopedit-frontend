@@ -94,7 +94,12 @@ const Pricing = () => {
                 ))}
               </ul>
               
-              <button className={`w-full py-3 rounded-full font-bold uppercase tracking-wider transition-all duration-300 ${
+              <button 
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('selectPackage', { detail: plan.name }));
+                  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`w-full py-3 rounded-full font-bold uppercase tracking-wider transition-all duration-300 ${
                 plan.highlight 
                 ? 'bg-brand-red text-white hover:bg-red-700 box-shadow-glow' 
                 : 'bg-transparent border border-gray-600 text-white hover:border-brand-red hover:text-brand-red'
