@@ -11,9 +11,20 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import FloatingWidgets from './components/FloatingWidgets';
+import PopupModal from './components/PopupModal';
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+      }, 600); // Elegant 600ms delay after loader completes
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   return (
     <Router>
@@ -34,6 +45,11 @@ function App() {
                 <Contact />
               </main>
               <Footer />
+              <AnimatePresence>
+                {showPopup && (
+                  <PopupModal isOpen={showPopup} onClose={() => setShowPopup(false)} />
+                )}
+              </AnimatePresence>
             </div>
           )}
         </AnimatePresence>
