@@ -7,7 +7,7 @@ import API_URL from '../config/api';
 const plans = [
   {
     name: "Basic Reel",
-    price: "₹999",
+    price: "₹9",
     period: "/reel",
     desc: "Perfect for quick, engaging Instagram Reels or Shorts.",
     features: [
@@ -350,7 +350,7 @@ const Contact = () => {
                   <label className="block text-sm text-gray-400 mb-2">Service Needed</label>
                   <select name="service" value={formData.service} onChange={handleChange} className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-red transition-colors appearance-none">
                     <option value="" disabled>Select a service</option>
-                    <option value="Basic Reel">Basic Reel Package (₹999)</option>
+                    <option value="Basic Reel">Basic Reel Package (₹9)</option>
                     <option value="Pro Creator">Pro Creator Package (₹2,999)</option>
                     <option value="Web & Video Combo">Web & Video Combo Package (₹15,000)</option>
                     <option value="Reel Editing">Reel/Shorts Editing (Inquiry)</option>

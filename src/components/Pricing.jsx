@@ -5,7 +5,7 @@ import { FiCheck } from 'react-icons/fi';
 const plans = [
   {
     name: "Basic Reel",
-    price: "₹999",
+    price: "₹9",
     period: "/reel",
     desc: "Perfect for quick, engaging Instagram Reels or Shorts.",
     features: [
